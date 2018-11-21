@@ -6,13 +6,13 @@ Megadados
 
 ## Sumário
 
-* [Introdução](#introducao)
-  * [O que é o Kafka?](#o-que-e-o-kafka)
+* [Introdução](#introdução)
+  * [O que é o Kafka?](#o-que-é-o-kafka)
   * [Termos](#termos)
   * [Funcionamento](#funcionamento)
-* [Aplicação Proposta](#aplicacao-proposta)
+* [Aplicação Proposta](#aplicação-proposta)
 * [Desafios](#desafios)
-* [Referências](#referencias)
+* [Referências](#referências)
 
 ## Introdução
 ### O que é o Kafka?
