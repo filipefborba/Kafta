@@ -25,7 +25,8 @@ Megadados
   />
 </p>
 
-O Kafka é um sistema distribuído de envio de mensagens que provê uma transmissão rápida, altamente escalável e redundante através de um modelo publicação-inscrição. O design distribuído do Kafka lhe dá uma série de vantagens. Primeiro, o Kafka permite um elevado número de consumidores permanentes ou temporários. Segundo, o Kafka tem alta disponibilidade e é resistência a falhas de nós, além de suportar recuperação automática. Em sistemas de dados do mundo real, essas características fazem do Kafka uma aplicação ideal para comunicação e integração de componentes de sistemas de larga escala. O Kafka possui, então, três principais capacidades: publicação e inscrição para fluxos de dados, similar à uma fila de mensagens ou um sistema de transmissão de mensagens corporativo; armazenamento de fluxo de dados de modo tolerante à falhas e durável; processamento de fluxo de dados em tempo real.
+O Kafka é um sistema distribuído de envio de mensagens que provê uma transmissão rápida, altamente escalável e redundante através de um modelo publicação-inscrição. O design distribuído do Kafka lhe dá uma série de vantagens. Primeiro, o Kafka permite um elevado número de consumidores permanentes ou temporários. Segundo, o Kafka tem alta disponibilidade e é resistência a falhas de nós, além de suportar recuperação automática. Em sistemas de dados do mundo real, essas características fazem do Kafka uma aplicação ideal para comunicação e integração de componentes de sistemas de larga escala. O Kafka possui, então, três principais capacidades: publicação e inscrição para fluxos de dados, similar à uma fila de mensagens ou um sistema de transmissão de mensagens corporativo; armazenamento de fluxo de dados de modo tolerante à falhas e durável; processamento de fluxo de dados em tempo real. Uma das principais qualidades do Kafka é sua capacidade de restaurar os dados caso possua alguma falha no sistema, esta recuperação ocorre já que é armazenado em uma lista todos os eventos. Assim, quando se estabelece a conexão, os dados são sincronizados.
+
 
 ### Termos
 
@@ -49,15 +50,23 @@ O Kafka possui quatro APIs principais. São elas:
 * Streams API: permite que uma aplicação atue como um processadores de fluxo, consumindo um fluxo de entrada de um ou mais tópicos e produzindo um fluxo de saída para um ou mais tópicos de saída, efetivamente transformando os fluxos de entrada em fluxos de saída.
 * Connector API:  permite construir e rodar producers ou consumers reutilizáveis que conectam tópicos do Kafka com aplicações ou sistemas de dados existentes. Por exemplo, um conector para um banco de dados relacional pode capturar todas as mudanças de uma tabela.
 
-## Recuperação de dados
-Uma das principais qualidades do Kafka é sua capacidade de restaurar os dados caso possua alguma falha no sistema, esta recuperação ocorre já que é armazenado em uma lista todos os eventos. Assim, quando se estabelece a conexão, os dados são sincronizados.
-
-
 ## Aplicação Proposta
 O projeto propõe demonstrar uma das possíveis aplicações do Kafka. Para tanto, foi criada uma aplicação cliente no estilo de Dashboard que servirá como um Centro de Controle Oceânico, recebendo dados de sensores. Os sensores são simulados por diversas APIs que enviam dados de forma muito rápida para o Kafka, a fim de testar sua coleta e inserção em fila. A ideia é que as informações sejam recebidas e repassadas com mínima perda. Os dados enviados serão: temperatura, salinidade e volume, simulando o comportamento oceânico de forma aleatória, assim, pode-se verificar ao vivo os dados recebidos.  
   
 Nessa situação, pode-se verificar que os Producers, são os sensores simulados, mandando dados para o Kafka e nosso Consumer é a aplicação de Dashboard do Centro de Controle Oceânico.
 
+## Tutorial
+
+O projeto pode ser feito tanto localmente quanto com o auxílio de máquinas da AWS. No final do tutorial está a organização para o caso de máquinas na AWS.
+
+#### Passo 1: Configuração Kafka Server
+Primeiramente, é necessário configurar o Kafka Server. Para tanto, basta seguir [este](https://kafka.apache.org/quickstart) tutorial até o passo 3 (Create a Topic). A partir desse ponto, utilizamos serviços próprios para a demonstração.    
+
+#### Passo 2: O Producer
+Após finalizar o tutorial no site do Apache Kafka, o sistema está preparado para enviar e receber mensagens. Antes, é necessário instalar a o Kafka para Python, para que o primeiro Producer possa rodar. Use o comando ```sudo pip3 install kafka-python``` ou use um [virtualenv](https://virtualenv.pypa.io/en/latest/).
+Com isso, basta editar os arquivos ```pacific_producer.py``` e/ou ```atlantic_producer.py``` com o IP e Porta do Kafka Server configurado no objeto ```KafkaProducer``` (linha 25), além do nome do tópico criado no método ```producer.send``` (linha 23). Rode um dos producers (ou todos) e não esqueça de usar o Python 3.
+
+#### Passo 3: O Consumer
 
 ## Desafios
 Desafios que tivemos, problemas, etc.
