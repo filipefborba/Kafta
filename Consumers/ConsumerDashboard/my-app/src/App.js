@@ -17,8 +17,20 @@ class App extends Component {
       tableAtlanticValues:null,
       graphicPacificValues: null,
       graphicAtlatincValues: null,
-      pacific: initialValues,
-      atlantic: initialValues,
+      "pacific": {
+        "pacific-1": initialValues,
+        "pacific-2": initialValues,
+        "pacific-3": initialValues,
+        "pacific-4": initialValues,
+        "pacific-5": initialValues
+      },
+      "atlantic": {
+        "atlantic-1": initialValues,
+        "atlantic-2": initialValues,
+        "atlantic-3": initialValues,
+        "atlantic-4": initialValues,
+        "atlantic-5": initialValues
+      }
     };
     this.getAtlanticValues =  this.getAtlanticValues.bind(this);
     this.getPacificValues =  this.getPacificValues.bind(this);
@@ -26,9 +38,10 @@ class App extends Component {
 
   getAtlanticValues() {
     axios.get("http://localhost:8888/atlantic_topic")
-      .then(atlantic => {        
+      .then(res => {        
         try {
-          this.setState({ atlantic: JSON.parse(atlantic.data) });
+          var data = JSON.parse(res.data);
+          this.updateValues(data, "atlantic");
         }
         catch (e) {
           console.log(e);
@@ -47,9 +60,10 @@ class App extends Component {
 
   getPacificValues() {
     axios.get("http://localhost:8888/pacific_topic")
-      .then(pacific => {
+      .then(res => {
         try {
-          this.setState({ pacific: JSON.parse(pacific.data) });
+          var data = JSON.parse(res.data);
+          this.updateValues(data, "pacific");
         }
         catch (e) {
           console.log(e);
@@ -66,6 +80,22 @@ class App extends Component {
       });
   }
 
+  updateValues(data, ocean) {
+    let id = data.id;
+    
+    const state = this.state;
+    state[ocean][id] = data;
+    this.setState(state);
+  }
+
+  //Objeto inteiro
+  // updateValues(data, ocean) {
+    
+  //   const state = this.state;
+  //   state[ocean] = data;
+  //   this.setState(state);
+  // }
+
   render() {   
     this.getAtlanticValues();
     this.getPacificValues();    
@@ -73,14 +103,14 @@ class App extends Component {
         <h1 className='tittle'> Centro de Controle Oceânico (CCO)</h1>
         <div className='table-wrappers'>
           <div>
-            <h2> Dados Oceano Pacífico</h2>
+            <h2>Dados Oceano Pacífico</h2>
             <Table 
               values = {this.state.pacific}
               whichTopic='pacific'
             />
           </div>
           <div>
-            <h2> Dados Oceano Atlântico</h2>
+            <h2>Dados Oceano Atlântico</h2>
             <Table 
               values = {this.state.atlantic}
               whichTopic='atlantic'

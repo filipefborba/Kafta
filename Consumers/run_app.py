@@ -10,7 +10,7 @@ def get_pacific_topic():
     consumer = KafkaConsumer(
         group_id=None,
         auto_offset_reset='latest',
-        bootstrap_servers='ec2-35-174-9-63.compute-1.amazonaws.com:9092')
+        bootstrap_servers='ec2-18-232-74-24.compute-1.amazonaws.com:9092')
     consumer.subscribe(['Pacific'])
     lastMessage = None
     for message in consumer:
@@ -32,7 +32,7 @@ def get_pacific_topic():
 @app.route('/atlantic_topic', methods=['GET'])
 def get_atlantic_topic():
     consumer = KafkaConsumer(auto_offset_reset='latest',
-                             bootstrap_servers='ec2-35-174-9-63.compute-1.amazonaws.com:9092')
+                             bootstrap_servers='18.232.74.24:9092')
     consumer.subscribe(['Atlantic'])
     lastMessage = None
     for message in consumer:
