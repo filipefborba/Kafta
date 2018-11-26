@@ -55,26 +55,26 @@ O Kafka possui quatro APIs principais. São elas:
 
 Algumas descrições de usos populares do Kafka serão descritos nessa parte. São eles:
 
-* Transmissão de Mensagens
+* Transmissão de Mensagens  
 O Kafka substitui bem um intermediário de mensagens (ou 'message broker') tradicional. Message Brokers são usados para uma variedade de aplicações, como desacoplar processamento e produção de dados, transformar em buffer mensagens sem tratamento, etc. Em comparação com outros sistemas, o Kafka possui um melhor throughput, replicação, particionamento próprio e tolerância à falhas, o que faz dele uma boa solução para aplicações de processamento de mensagens em larga escala. 
 Kafka works well as a replacement for a more traditional message broker. Message brokers are used for a variety of reasons (to decouple processing from data producers, to buffer unprocessed messages, etc). In comparison to most messaging systems Kafka has better throughput, built-in partitioning, replication, and fault-tolerance which makes it a good solution for large scale message processing applications. Ele é muitas vezes comparado com o ActiveMQ ou o RabbitMQ.
 
-* Monitoramento de Atividade de Websites
+* Monitoramento de Atividade de Websites  
 O uso original do Kafka era de possibilitar a reconstrução de um pipeline de monitoramento de atividades de usuários como um conjunto de feeds publicação-leitura em tempo real. Isso significa que as atividades do site (buscas e outras ações que os usuários realizam) são publicadas para uma central de tópicos com um tópico por tipo de atividade. Esses feeds são disponíveis para leitura para uma variedade de aplicações como processamento em tempo real, backup, monitoramento, entre outros. Monitoramento de Atividades frequentemente possui um alto volume de mensagens, dado que geralmente muitas ações são realizadas por cada usuário.
 
-* Métricas
+* Métricas  
 O Kafka também é usado para monitorar dados operacionais. Isso envolve agregar estatísticas de diferentes aplicações para produzir feeds centralizados de data operacional. Esse caso é utilizado nesse projeto, por exemplo.
 
-* Agregação de Log (Log Aggregation)
+* Agregação de Log (Log Aggregation)  
 Muitas pessoas usam o Kafka como um substituto para soluções de agregação de logs. Basicamente, a ideia é coletar arquivos de log de diferentes servidores e colocá-los em um lugar central para processamento. O Kafka abstrai os detalhes dessa dinâmica trazendo um fluxo de mensagens mais simples. Isso possibilita um processamento de menor latência e um suporte facilitado para múltiplas fontes de dados e consumo de dados distribuído. Em comparação com outros sistemas com Scribe ou Flume, oKafka oferece uma performance igualmente boa e uma durabilidade maior devido à replicação, além de uma menor latência de ponta a ponta.
 
-* Processamento de Fluxo (Stream Processing)
+* Processamento de Fluxo (Stream Processing)  
 Muitos usuários utilizam o Kafka para processar dados em um pipeline de processamento que consiste em vários estágios, onde um dado puro é consumido por tópicos do Kafka e depois agregado, enriquecido ou transformado em outros tópicos para consumo posterior ou mais processamento. Esses pipelines criam gráficos em tempo real do fluxo de dados baseados nos tópicos individuais.
 
-* Event Sourcing
+* Event Sourcing  
 Event sourcing é um estilo de design de aplicação no qual mudanças no estado dela são arquivados como uma sequência de logs ordenada por tempo. O suporte para armazenamento de logs pesados do Kafka fazem dele uma ótimo backend para uma aplicação desenhada com esse propósito.
 
-* Commit Log
+* Commit Log  
 O Kafka pode servir como um tipo de commit-log externo para sistemas distribuídos. Esse log ajuda a replicar os dados entre os nós e agir como um mecanismo de sincronização entre nós que falham para recuperar seus dados.
 
 ## Aplicação Proposta
