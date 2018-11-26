@@ -26,20 +26,15 @@ producer = KafkaProducer(bootstrap_servers=['35.174.9.63:9092'])
 
 thread1 = Thread(target=threaded_function, name="atlantic-1")
 thread1.start()
-thread1.join()
 
 thread2 = Thread(target=threaded_function, name="atlantic-2")
 thread2.start()
-thread2.join()
 
 thread3 = Thread(target=threaded_function, name="atlantic-3")
 thread3.start()
-thread3.join()
 
 thread4 = Thread(target=threaded_function, name="atlantic-4")
 thread4.start()
-thread4.join()
 
 thread5 = Thread(target=threaded_function, name="atlantic-5")
 thread5.start()
-thread5.join()
