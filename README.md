@@ -102,6 +102,11 @@ O consumer consiste em uma API Flask que faz as requisições GET para o Kafka S
 Para rodar a API em Flask, basta instalar as dependências através do ```sudo apt install python-flask, sudo pip3 install kafka-python```e utilizar o comando python```python3 run_app.py```. Com isso, é necessário rodar a aplicação Web usando o React.  
 Para tanto, é necessário instalar o Node.JS e o npm.```sudo apt-get install nodejs``` e ```sudo apt-get install npm``` resolvem o problema. Após isso, use o comando ```npm install``` dentro da pasta ConsumerDashboard para instalar os pacotes da aplicação em React e ```npm start``` para iniciar a aplicação, que irá abrir no browser diretamente se você estiver fazendo tudo localmente. Para o caso da AWS, é necessário acessar o IP da máquina na porta 5000. Caso não consiga conectar, verifique a mensagem no terminal ao iniciar a aplicação em React.
 
+#### Resultado
+
+![Sem Dados](https://i.imgur.com/w5gV9PZ.png)
+![Com Dados](https://i.imgur.com/YsW2N35.png)
+
 #### AWS
 Caso queira utilizar as máquinas da AWS, não esqueça de rodar ```sudo apt-get update``` para instalar as dependências e etc. Ocorrerão falhas se esse comando não for utilizado. Além disso, o tutorial prevê que o usuário irá se conectar às máquinas por SSH e realizar os passos descritos.  
 As máquinas usadas foram:
