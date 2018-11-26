@@ -60,7 +60,8 @@ Nessa situação, pode-se verificar que os Producers, são os sensores simulados
 O projeto pode ser feito tanto localmente quanto com o auxílio de máquinas da AWS. No final do tutorial está a organização para o caso de máquinas na AWS. Não esqueça de usar ```sudo apt-get update``` antes de instalar as dependências e iniciar o projeto. A recomendação é instalar e testar cada passo deste tutorial antes de rodar todos os programas ao mesmo tempo.
 
 #### Passo 1: Configuração Kafka Server
-Primeiramente, é necessário configurar o Kafka Server. Para tanto, basta seguir [este](https://kafka.apache.org/quickstart) tutorial até o passo 3 (Create a Topic). A partir desse ponto, utilizamos serviços próprios para a demonstração.    
+Primeiramente, é necessário configurar o Kafka Server. Para tanto, basta seguir [este](https://kafka.apache.org/quickstart) tutorial até o passo 3 (Create a Topic). A partir desse ponto, utilizamos serviços próprios para a demonstração.
+Para finalizar a configuração do Kafka Server, precisamos criar os tópicos para os producers e consumers se comunicarem. Os tópicos disponíveis nesse tutorial são "Atlantic" e "Pacific", por padrão. Use o seguinte comando para criar o tópico: ```bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic Atlantic```. Com esse comando, o tópico Atlantic será criado e será possível realizar a comunicação. Caso queira criar o tópico Pacific também, basta trocar o nome no comando.
 
 #### Passo 2: O Producer
 Os producers são APIs que realizam várias requisições POST rapidamente utilizando a biblioteca de Producer do Kafka.
@@ -70,7 +71,7 @@ Com isso, basta editar os arquivos ```pacific_producer.py``` e/ou ```atlantic_pr
 #### Passo 3: O Consumer
 O consumer consiste em uma API Flask que faz as requisições GET para o Kafka Server e uma aplicação Web em React que renderiza a interface do Dashboard e realiza as requisições GET para a API Flask através de sua "Fetch API", atualizando os valores das tabelas. A Fetch API é apenas uma forma simplificada e mais flexível de fazer requisições AJAX.
 Para rodar a API em Flask, basta instalar as dependências através do ```sudo apt install python-flask, sudo pip3 install kafka-python```e utilizar o comando python```python3 run_app.py```. Com isso, é necessário rodar a aplicação Web usando o React.  
-Para tanto, é necessário instalar o Node.JS e o npm.```sudo apt-get install nodejs``` e ```sudo apt-get install npm``` resolvem o problema. Após isso, use o comando ```npm install``` para instalar os pacotes da aplicação em React e ```npm start``` para iniciar a aplicação, que irá abrir no browser diretamente se você estiver fazendo tudo localmente. Para o caso da AWS, é necessário acessar o IP da máquina na porta 5000. Caso não consiga conectar, verifique a mensagem no terminal ao iniciar a aplicação em React.
+Para tanto, é necessário instalar o Node.JS e o npm.```sudo apt-get install nodejs``` e ```sudo apt-get install npm``` resolvem o problema. Após isso, use o comando ```npm install``` dentro da pasta ConsumerDashboard para instalar os pacotes da aplicação em React e ```npm start``` para iniciar a aplicação, que irá abrir no browser diretamente se você estiver fazendo tudo localmente. Para o caso da AWS, é necessário acessar o IP da máquina na porta 5000. Caso não consiga conectar, verifique a mensagem no terminal ao iniciar a aplicação em React.
 
 #### AWS
 Caso queira utilizar as máquinas da AWS, não esqueça de rodar ```sudo apt-get update``` para instalar as dependências e etc. Ocorrerão falhas se esse comando não for utilizado. Além disso, o tutorial prevê que o usuário irá se conectar às máquinas por SSH e realizar os passos descritos.  
