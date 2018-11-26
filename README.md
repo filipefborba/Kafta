@@ -79,6 +79,8 @@ O Kafka pode servir como um tipo de commit-log externo para sistemas distribuíd
 
 ## Aplicação Proposta
 O projeto propõe demonstrar uma das possíveis aplicações do Kafka. Para tanto, foi criada uma aplicação cliente no estilo de Dashboard que servirá como um Centro de Controle Oceânico, recebendo dados de sensores. Os sensores são simulados por diversas APIs que enviam dados de forma muito rápida para o Kafka, a fim de testar sua coleta e inserção em fila. A ideia é que as informações sejam recebidas e repassadas com mínima perda. Os dados enviados serão: temperatura, salinidade e volume, simulando o comportamento oceânico de forma aleatória, assim, pode-se verificar ao vivo os dados recebidos.  
+
+![Diagrama da aplicação proposta](https://i.imgur.com/KGDB2D7.png)
   
 Nessa situação, pode-se verificar que os Producers, são os sensores simulados, mandando dados para o Kafka e nosso Consumer é a aplicação de Dashboard do Centro de Controle Oceânico.
 
