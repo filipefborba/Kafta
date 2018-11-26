@@ -66,7 +66,16 @@ O uso original do Kafka era de possibilitar a reconstrução de um pipeline de m
 O Kafka também é usado para monitorar dados operacionais. Isso envolve agregar estatísticas de diferentes aplicações para produzir feeds centralizados de data operacional. Esse caso é utilizado nesse projeto, por exemplo.
 
 * Agregação de Log (Log Aggregation)
-Muitas pessoas usam o Kafka como um substituto para soluções de agregação de logs. 
+Muitas pessoas usam o Kafka como um substituto para soluções de agregação de logs. Basicamente, a ideia é coletar arquivos de log de diferentes servidores e colocá-los em um lugar central para processamento. O Kafka abstrai os detalhes dessa dinâmica trazendo um fluxo de mensagens mais simples. Isso possibilita um processamento de menor latência e um suporte facilitado para múltiplas fontes de dados e consumo de dados distribuído. Em comparação com outros sistemas com Scribe ou Flume, oKafka oferece uma performance igualmente boa e uma durabilidade maior devido à replicação, além de uma menor latência de ponta a ponta.
+
+* Processamento de Fluxo (Stream Processing)
+Muitos usuários utilizam o Kafka para processar dados em um pipeline de processamento que consiste em vários estágios, onde um dado puro é consumido por tópicos do Kafka e depois agregado, enriquecido ou transformado em outros tópicos para consumo posterior ou mais processamento. Esses pipelines criam gráficos em tempo real do fluxo de dados baseados nos tópicos individuais.
+
+* Event Sourcing
+Event sourcing é um estilo de design de aplicação no qual mudanças no estado dela são arquivados como uma sequência de logs ordenada por tempo. O suporte para armazenamento de logs pesados do Kafka fazem dele uma ótimo backend para uma aplicação desenhada com esse propósito.
+
+* Commit Log
+O Kafka pode servir como um tipo de commit-log externo para sistemas distribuídos. Esse log ajuda a replicar os dados entre os nós e agir como um mecanismo de sincronização entre nós que falham para recuperar seus dados.
 
 ## Aplicação Proposta
 O projeto propõe demonstrar uma das possíveis aplicações do Kafka. Para tanto, foi criada uma aplicação cliente no estilo de Dashboard que servirá como um Centro de Controle Oceânico, recebendo dados de sensores. Os sensores são simulados por diversas APIs que enviam dados de forma muito rápida para o Kafka, a fim de testar sua coleta e inserção em fila. A ideia é que as informações sejam recebidas e repassadas com mínima perda. Os dados enviados serão: temperatura, salinidade e volume, simulando o comportamento oceânico de forma aleatória, assim, pode-se verificar ao vivo os dados recebidos.  
