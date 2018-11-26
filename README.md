@@ -134,9 +134,16 @@ Como esperado a quantidade de bytes na saida foi maior, entretanto obtivemos 3 r
  - A quantidade de bytes in diminuiu
  - A quantidade de bytes rejected permaneceu zerada
  - O Servidor do Kafka crashou com o seguinte erro: " ERROR Error while appending records to Pacific-0 in dir /tmp/kafka-logs (kafka.server.LogDirFailureChannel) java.io.IOException: No space left on device"
- 
- ## Robustez
 
+ ## Robustez
+ ### lidando com escritas
+ 
+Ao se comunicar com um cluster Kafka, todas as mensagens são enviadas para o líder da partição. O líder é responsável por gravar a mensagem em sua própria réplica de modo sincrono e, uma vez que a mensagem tenha sido "commited", é responsável por propagar a mensagem para réplicas adicionais em diferentes brokers. Cada réplica reconhece que recebeu a mensagem e agora pode ser chamada em sincronia.
+![Escrita](https://i.imgur.com/ckgG795.png)
+
+## lidando com erros
+Quando uma replica falha ela deixa de receber mensagens, ficando cada vez mais fora de sincronia com o líder. Na imagem abaixo, a réplica 3 não está mais recebendo mensagens do líder.
+![erro](https://i.imgur.com/sagM568.png)
 
 
 ## Referências
