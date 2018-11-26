@@ -111,6 +111,32 @@ As máquinas usadas foram:
 O grande desafio do projeto foi monitorar a perfomance do Kafka, uma vez que a ideia era ver em qual ponto seria necessário a utilização de uma solução robusta como o Kafka. Existem diversas ferramentas (dashboards) de monitoramento da perfomance, entretanto a utilização e configuração das mesmas não é trivial, visto que, para que tudo funcione perfeitamente, várias configurações manuais devem ser feitas. Apesar de haver bastante documentação, ela não é clara para quem está começando a mexer com essa tecnologia. O grupo havia conseguido com sucesso fazer o monitoramento das métricas através de um projeto chamado Kafka Manager, entretanto, só funcionou quando o Kafka-Server estava sendo rodado no localhost, a partir do momento que foi para uma instância EC2, o manager parou de funcionar (mesmo tendo habilitado as portas necessárias e criando as variáveis de ambiente conforme a documentação). A solução foi utilizar a ferramenta JMX Tool para monitorar as métricas do servidor via console, sem interface mas com os dados necessários à disposição.
 Outro desafio considerável foi trabalhar com diversos "mini-projetos" rodando em ambientes diferentes e comunicando entre si. Temos os producers, o Kafka-Server, a API Python para fazer o papel de consumer e uma aplicação consumindo essa API para mostrar os dados numa dashboard.
 
+## Explorando o Kafka
+
+Para testar os poderes do kafka comecamos com a seguinte configuracao:
+1 instancia m4 xlarge que abriga 1 node zookeeper e 1 broker (dividido em dois topicos)
+1 instancia t2 large que abriga dois producers (cada um publicando em um topico diferente)
+
+Para a seguinte configuracao obtivemos os seguintes resultados (obtidos atraves da ferramenta JMX_TOOLS):
+![Grafico de Bytes Out Per Sec](https://i.imgur.com/leaggR5.png)
+![Grafico de Bytes In Per Sec](https://i.imgur.com/nogY1tv.png)
+
+Os BytesRejectedPerSec permaneceram zerados. O que nos levou a uma nova curiosiade, sera que se aumentarmos consideravelmente a potencia dos producers o Kafka "engasga" ? 
+
+Em adendo a configuracao ja mencionada adicionamos mais 2 instancias m4.xlarge como producers, seguem abaixo os resultados.
+
+![BytesOut](https://i.imgur.com/bP8tniZ.png)
+![BytesIn](https://i.imgur.com/YdKod05.png)
+
+Como esperado a quantidade de bytes na saida foi maior, entretanto obtivemos 3 resultados inesperados.  O primeiro:
+ - A quantidade de bytes in diminuiu
+ - A quantidade de bytes rejected permaneceu zerada
+ - O Servidor do Kafka crashou com o seguinte erro: " ERROR Error while appending records to Pacific-0 in dir /tmp/kafka-logs (kafka.server.LogDirFailureChannel) java.io.IOException: No space left on device"
+ 
+ ## Robustez
+
+
+
 ## Referências
 https://kafka.apache.org  
 https://en.wikipedia.org/wiki/Apache_Kafka  
