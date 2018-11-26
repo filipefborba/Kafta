@@ -10,6 +10,7 @@ Megadados
   * [O que é o Kafka?](#o-que-é-o-kafka)
   * [Termos](#termos)
   * [Funcionamento](#funcionamento)
+  * [Situações de Uso](#situações-de-uso)
 * [Aplicação Proposta](#aplicação-proposta)
 * [Desafios](#desafios)
 * [Referências](#referências)
@@ -49,6 +50,23 @@ O Kafka possui quatro APIs principais. São elas:
 * Consumer API: permite que uma aplicação se inscreva para um ou mais tópicos e processe o fluxo de dados produzido para ela.
 * Streams API: permite que uma aplicação atue como um processadores de fluxo, consumindo um fluxo de entrada de um ou mais tópicos e produzindo um fluxo de saída para um ou mais tópicos de saída, efetivamente transformando os fluxos de entrada em fluxos de saída.
 * Connector API:  permite construir e rodar producers ou consumers reutilizáveis que conectam tópicos do Kafka com aplicações ou sistemas de dados existentes. Por exemplo, um conector para um banco de dados relacional pode capturar todas as mudanças de uma tabela.
+
+### Situações de Uso
+
+Algumas descrições de usos populares do Kafka serão descritos nessa parte. São eles:
+
+* Transmissão de Mensagens
+O Kafka substitui bem um intermediário de mensagens (ou 'message broker') tradicional. Message Brokers são usados para uma variedade de aplicações, como desacoplar processamento e produção de dados, transformar em buffer mensagens sem tratamento, etc. Em comparação com outros sistemas, o Kafka possui um melhor throughput, replicação, particionamento próprio e tolerância à falhas, o que faz dele uma boa solução para aplicações de processamento de mensagens em larga escala. 
+Kafka works well as a replacement for a more traditional message broker. Message brokers are used for a variety of reasons (to decouple processing from data producers, to buffer unprocessed messages, etc). In comparison to most messaging systems Kafka has better throughput, built-in partitioning, replication, and fault-tolerance which makes it a good solution for large scale message processing applications. Ele é muitas vezes comparado com o ActiveMQ ou o RabbitMQ.
+
+* Monitoramento de Atividade de Websites
+O uso original do Kafka era de possibilitar a reconstrução de um pipeline de monitoramento de atividades de usuários como um conjunto de feeds publicação-leitura em tempo real. Isso significa que as atividades do site (buscas e outras ações que os usuários realizam) são publicadas para uma central de tópicos com um tópico por tipo de atividade. Esses feeds são disponíveis para leitura para uma variedade de aplicações como processamento em tempo real, backup, monitoramento, entre outros. Monitoramento de Atividades frequentemente possui um alto volume de mensagens, dado que geralmente muitas ações são realizadas por cada usuário.
+
+* Métricas
+O Kafka também é usado para monitorar dados operacionais. Isso envolve agregar estatísticas de diferentes aplicações para produzir feeds centralizados de data operacional. Esse caso é utilizado nesse projeto, por exemplo.
+
+* Agregação de Log (Log Aggregation)
+Muitas pessoas usam o Kafka como um substituto para soluções de agregação de logs. 
 
 ## Aplicação Proposta
 O projeto propõe demonstrar uma das possíveis aplicações do Kafka. Para tanto, foi criada uma aplicação cliente no estilo de Dashboard que servirá como um Centro de Controle Oceânico, recebendo dados de sensores. Os sensores são simulados por diversas APIs que enviam dados de forma muito rápida para o Kafka, a fim de testar sua coleta e inserção em fila. A ideia é que as informações sejam recebidas e repassadas com mínima perda. Os dados enviados serão: temperatura, salinidade e volume, simulando o comportamento oceânico de forma aleatória, assim, pode-se verificar ao vivo os dados recebidos.  
