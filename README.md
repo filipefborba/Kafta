@@ -110,7 +110,7 @@ Com isso, basta editar os arquivos ```pacific_producer.py``` e/ou ```atlantic_pr
 
 #### Passo 3: O Consumer
 O consumer consiste em uma API Flask que faz as requisições GET para o Kafka Server e uma aplicação Web em React que renderiza a interface do Dashboard e realiza as requisições GET para a API Flask através de sua "Fetch API", atualizando os valores das tabelas. A Fetch API é apenas uma forma simplificada e mais flexível de fazer requisições AJAX.
-Para rodar a API em Flask, basta instalar as dependências através do ```sudo apt install python-flask, sudo pip3 install kafka-python```e utilizar o comando python```python3 run_app.py```. Com isso, é necessário rodar a aplicação Web usando o React.  
+Para rodar a API em Flask, basta instalar as dependências através do ```sudo apt install python-flask, sudo pip3 install kafka-python```, verificar se dentro do arquivo run_app.py o bootstrap_servers, nas linhas 13 e 35, está com o ip correto, e assim, prosseguir e utilizar o comando python```python3 run_app.py```. Com isso, é necessário rodar a aplicação Web usando o React.  
 Para tanto, é necessário instalar o Node.JS e o npm.```sudo apt-get install nodejs``` e ```sudo apt-get install npm``` resolvem o problema. Após isso, use o comando ```npm install``` dentro da pasta ConsumerDashboard para instalar os pacotes da aplicação em React e ```npm start``` para iniciar a aplicação, que irá abrir no browser diretamente se você estiver fazendo tudo localmente. Para o caso da AWS, é necessário acessar o IP da máquina na porta 5000. Caso não consiga conectar, verifique a mensagem no terminal ao iniciar a aplicação em React.
 
 #### Resultado
