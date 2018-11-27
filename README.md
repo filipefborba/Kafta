@@ -89,21 +89,18 @@ Nessa situação, pode-se verificar que os Producers, são os sensores simulados
 O projeto pode ser feito tanto localmente quanto com o auxílio de máquinas da AWS. No final do tutorial está a organização para o caso de máquinas na AWS. Não esqueça de usar ```sudo apt-get update``` antes de instalar as dependências e iniciar o projeto. A recomendação é instalar e testar cada passo deste tutorial antes de rodar todos os programas ao mesmo tempo.
 
 #### Passo 0: Pré Requisitos
-###### -Baixar Java:
-sudo add-apt-repository ppa:webupd8team/java; sudo apt update; sudo apt install oracle-java8-installer; sudo apt install oracle-java8-set-default
-
-###### -Clonar Repositório:
+###### Clonar Repositório:
 git clone https://github.com/filipefborba/Kafta.git
 
-###### -Entrar nas pastas:
-Para criação do Producer, entre na pasta Producer, para criação do Consumer abra a pasta onde clonou, entre em Consumer-ConsumerDashboard-my-app.
-
-###### -Habilitar CORS:
-Para rodar o Consumer, a extensão do Chrome chamado CORS deve estar habilitado, para que o react funcione normalmente, assim, os dados começam a ser mostrados.
+###### Habilitar CORS:
+Para rodar o Consumer, a extensão do Chrome chamado CORS deve estar habilitado, para que o React funcione normalmente, assim, os dados começam a ser mostrados. Isso ocorre porque não utilizamos o header Access-Control-Allow-Origin nas requisições.
        
 #### Passo 1: Configuração Kafka Server
-Primeiramente, é necessário configurar o Kafka Server. Para tanto, basta seguir [este](ctv) tutorial até o passo 3 (Create a Topic). A partir desse ponto, utilizamos serviços próprios para a demonstração.
-Para finalizar a configuração do Kafka Server, precisamos criar os tópicos para os producers e consumers se comunicarem. Os tópicos disponíveis nesse tutorial são "Atlantic" e "Pacific", por padrão. Use o seguinte comando para criar o tópico: ```bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic Atlantic```. Com esse comando, o tópico Atlantic será criado e será possível realizar a comunicação. Caso queira criar o tópico Pacific também, basta trocar o nome no comando.
+Primeiramente, instale a dependência do Kafka que é o Java através do comando ```sudo add-apt-repository ppa:webupd8team/java && sudo apt update && sudo apt install oracle-java8-installer && sudo apt install oracle-java8-set-default```
+Primeiramente, é necessário configurar o Kafka Server. Para tanto, basta seguir [este](https://kafka.apache.org/quickstart) tutorial até o passo 3 (Create a Topic). A partir desse ponto, utilizamos serviços próprios para a demonstração.
+Para finalizar a configuração do Kafka Server, precisamos criar os tópicos para os producers e consumers se comunicarem. Os tópicos disponíveis nesse tutorial são "Atlantic" e "Pacific", por padrão. Use o seguinte comando para criar o tópico: ```bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic Atlantic```. Com esse comando, o tópico Atlantic será criado e será possível realizar a comunicação. Caso queira criar o tópico Pacific também, basta trocar o nome no comando.  
+Por fim, entrar no arquivo config/server.properties e adicionar a linha ```listeners=PLAINTEXT://<SeuHostName>:9092```.  
+O hostname será o IP da máquina da AWS ou 0.0.0.0 (localhost).
 
 #### Passo 2: O Producer
 Os producers são APIs que realizam várias requisições POST rapidamente utilizando a biblioteca de Producer do Kafka.
@@ -112,8 +109,8 @@ Com isso, basta editar os arquivos ```pacific_producer.py``` e/ou ```atlantic_pr
 
 #### Passo 3: O Consumer
 O consumer consiste em uma API Flask que faz as requisições GET para o Kafka Server e uma aplicação Web em React que renderiza a interface do Dashboard e realiza as requisições GET para a API Flask através de sua "Fetch API", atualizando os valores das tabelas. A Fetch API é apenas uma forma simplificada e mais flexível de fazer requisições AJAX.
-Para rodar a API em Flask, basta instalar as dependências através do ```sudo apt install python-flask, sudo pip3 install kafka-python```, verificar se dentro do arquivo run_app.py o bootstrap_servers, nas linhas 13 e 35, está com o ip correto, e assim, prosseguir e utilizar o comando python```python3 run_app.py```. Com isso, é necessário rodar a aplicação Web usando o React.  
-Para tanto, é necessário instalar o Node.JS e o npm.```sudo apt-get install nodejs``` e ```sudo apt-get install npm``` resolvem o problema. Após isso, use o comando ```npm install``` dentro da pasta ConsumerDashboard para instalar os pacotes da aplicação em React e ```npm start``` para iniciar a aplicação, que irá abrir no browser diretamente se você estiver fazendo tudo localmente. Para o caso da AWS, é necessário acessar o IP da máquina na porta 5000. Caso não consiga conectar, verifique a mensagem no terminal ao iniciar a aplicação em React.
+Para rodar a API em Flask, basta instalar as dependências através do ```sudo apt install python-flask, sudo pip3 install kafka-python```, verificar se dentro do arquivo run_app.py o bootstrap_servers, nas linhas 13 e 35, está com o ip correto, e assim, prosseguir e utilizar o comando python```python3 run_app.py```. Verifique se há alguma atividade no console, indicando que a API está recebendo os dados do Kafka.  
+Com isso, é necessário rodar a aplicação Web usando o React. Para tanto, é necessário instalar o Node.JS e o npm.```sudo apt-get install nodejs``` e ```sudo apt-get install npm``` resolvem o problema. Após isso, use o comando ```npm install``` dentro da pasta ConsumerDashboard para instalar os pacotes da aplicação em React e ```npm start``` para iniciar a aplicação, que irá abrir no browser diretamente se você estiver fazendo tudo localmente. Para o caso da AWS, é necessário acessar o IP da máquina na porta 5000. Caso não consiga conectar, verifique a mensagem no terminal ao iniciar a aplicação em React.
 
 #### Resultado
 Ao seguir os passos do tutorial, seu Dashboard deve iniciar sem dados dos sensores, como na imagem a seguir:
@@ -196,16 +193,32 @@ Como esperado a quantidade de bytes na saida foi maior, entretanto obtivemos 3 r
  - A quantidade de bytes rejected permaneceu zerada
  - O Servidor do Kafka crashou com o seguinte erro: " ERROR Error while appending records to Pacific-0 in dir /tmp/kafka-logs (kafka.server.LogDirFailureChannel) java.io.IOException: No space left on device"
 
- ## Robustez
- ### lidando com escritas
+## Robustez
+### Lidando com escritas
+Cada broker contm um número de partições e cada uma dessas partições podem ser um líder ou uma réplica de um tópico. Todas as escritas e leituras de um tópico passam pelo líder e o líder coordena a atualização das réplicas com novos dados. Se o líder falhar, a replica toma o lugar de líder.
  
 Ao se comunicar com um cluster Kafka, todas as mensagens são enviadas para o líder da partição. O líder é responsável por gravar a mensagem em sua própria réplica de modo sincrono e, uma vez que a mensagem tenha sido "commited", é responsável por propagar a mensagem para réplicas adicionais em diferentes brokers. Cada réplica reconhece que recebeu a mensagem e agora pode ser chamada em sincronia.
-![Escrita](https://i.imgur.com/ckgG795.png)
 
-## lidando com erros
+<p align="center">
+  <img
+    alt="Escrita"
+    src="https://i.imgur.com/ckgG795.png"
+    width="60%"
+  />
+</p>
+
+## Lidando com erros
 Quando uma replica falha ela deixa de receber mensagens, ficando cada vez mais fora de sincronia com o líder. Na imagem abaixo, a réplica 3 não está mais recebendo mensagens do líder.
-![erro](https://i.imgur.com/sagM568.png)
 
+<p align="center">
+  <img
+    alt="Lidando com erros"
+    src="https://i.imgur.com/sagM568.png"
+    width="60%"
+  />
+</p>
+
+Se o líder falhar, a replica toma o lugar de líder. Mas caso não existam mais líderes, o Kafka controller vai detectar a perda de líderes e retornar um erro de LeaderNotAvailable. Com isso, nenhum dado será perdido, desde que os producers e consumers lidem com essa possibilidade e tentem novamente de forma apropriada.
 
 ## Referências
 https://kafka.apache.org  
