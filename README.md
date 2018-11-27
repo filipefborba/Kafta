@@ -88,6 +88,11 @@ Nessa situação, pode-se verificar que os Producers, são os sensores simulados
 
 O projeto pode ser feito tanto localmente quanto com o auxílio de máquinas da AWS. No final do tutorial está a organização para o caso de máquinas na AWS. Não esqueça de usar ```sudo apt-get update``` antes de instalar as dependências e iniciar o projeto. A recomendação é instalar e testar cada passo deste tutorial antes de rodar todos os programas ao mesmo tempo.
 
+#### Passo 0: Pré Requisitos
+###### -Baixar Java:
+sudo add-apt-repository ppa:webupd8team/java; sudo apt update; sudo apt install oracle-java8-installer; sudo apt install oracle-java8-set-default
+
+       
 #### Passo 1: Configuração Kafka Server
 Primeiramente, é necessário configurar o Kafka Server. Para tanto, basta seguir [este](https://kafka.apache.org/quickstart) tutorial até o passo 3 (Create a Topic). A partir desse ponto, utilizamos serviços próprios para a demonstração.
 Para finalizar a configuração do Kafka Server, precisamos criar os tópicos para os producers e consumers se comunicarem. Os tópicos disponíveis nesse tutorial são "Atlantic" e "Pacific", por padrão. Use o seguinte comando para criar o tópico: ```bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic Atlantic```. Com esse comando, o tópico Atlantic será criado e será possível realizar a comunicação. Caso queira criar o tópico Pacific também, basta trocar o nome no comando.
