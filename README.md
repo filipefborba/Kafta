@@ -92,9 +92,15 @@ O projeto pode ser feito tanto localmente quanto com o auxílio de máquinas da 
 ###### -Baixar Java:
 sudo add-apt-repository ppa:webupd8team/java; sudo apt update; sudo apt install oracle-java8-installer; sudo apt install oracle-java8-set-default
 
+###### -Clonar Repositório:
+git clone https://github.com/filipefborba/Kafta.git
+
+###### -Entrar nas pastas:
+Para criação do Producer, entre na pasta Producer, para criação do Consumer abra a pasta onde clonou, entre em Consumer-ConsumerDashboard-my-app.
+
        
 #### Passo 1: Configuração Kafka Server
-Primeiramente, é necessário configurar o Kafka Server. Para tanto, basta seguir [este](https://kafka.apache.org/quickstart) tutorial até o passo 3 (Create a Topic). A partir desse ponto, utilizamos serviços próprios para a demonstração.
+Primeiramente, é necessário configurar o Kafka Server. Para tanto, basta seguir [este](ctv) tutorial até o passo 3 (Create a Topic). A partir desse ponto, utilizamos serviços próprios para a demonstração.
 Para finalizar a configuração do Kafka Server, precisamos criar os tópicos para os producers e consumers se comunicarem. Os tópicos disponíveis nesse tutorial são "Atlantic" e "Pacific", por padrão. Use o seguinte comando para criar o tópico: ```bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic Atlantic```. Com esse comando, o tópico Atlantic será criado e será possível realizar a comunicação. Caso queira criar o tópico Pacific também, basta trocar o nome no comando.
 
 #### Passo 2: O Producer
