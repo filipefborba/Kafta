@@ -103,9 +103,25 @@ Para rodar a API em Flask, basta instalar as dependências através do ```sudo a
 Para tanto, é necessário instalar o Node.JS e o npm.```sudo apt-get install nodejs``` e ```sudo apt-get install npm``` resolvem o problema. Após isso, use o comando ```npm install``` dentro da pasta ConsumerDashboard para instalar os pacotes da aplicação em React e ```npm start``` para iniciar a aplicação, que irá abrir no browser diretamente se você estiver fazendo tudo localmente. Para o caso da AWS, é necessário acessar o IP da máquina na porta 5000. Caso não consiga conectar, verifique a mensagem no terminal ao iniciar a aplicação em React.
 
 #### Resultado
+Ao seguir os passos do tutorial, seu Dashboard deve iniciar sem dados dos sensores, como na imagem a seguir:
 
-![Sem Dados](https://i.imgur.com/w5gV9PZ.png)
-![Com Dados](https://i.imgur.com/YsW2N35.png)
+<p align="center">
+  <img
+    alt="Sem Dados"
+    src="https://i.imgur.com/w5gV9PZ.png"
+    width="60%"
+  />
+</p>
+
+
+Contudo, os dados do Kafka devem chegar, populando o estado da aplicação e mostrando os valores dos sensores atualizando.
+<p align="center">
+  <img
+    alt="Com Dados"
+    src="https://i.imgur.com/YsW2N35.png"
+    width="60%"
+  />
+</p>
 
 #### AWS
 Caso queira utilizar as máquinas da AWS, não esqueça de rodar ```sudo apt-get update``` para instalar as dependências e etc. Ocorrerão falhas se esse comando não for utilizado. Além disso, o tutorial prevê que o usuário irá se conectar às máquinas por SSH e realizar os passos descritos.  
@@ -125,15 +141,42 @@ Para testar os poderes do kafka comecamos com a seguinte configuracao:
 1 instancia t2 large que abriga dois producers (cada um publicando em um topico diferente)
 
 Para a seguinte configuracao obtivemos os seguintes resultados (obtidos atraves da ferramenta JMX_TOOLS):
-![Grafico de Bytes Out Per Sec](https://i.imgur.com/leaggR5.png)
-![Grafico de Bytes In Per Sec](https://i.imgur.com/nogY1tv.png)
+<p align="center">
+  <img
+    alt="Grafico de Bytes Out Per Sec"
+    src="https://i.imgur.com/leaggR5.png"
+    width="60%"
+  />
+</p>
+
+<p align="center">
+  <img
+    alt="Grafico de Bytes In Per Sec"
+    src="https://i.imgur.com/nogY1tv.png"
+    width="60%"
+  />
+</p>
 
 Os BytesRejectedPerSec permaneceram zerados. O que nos levou a uma nova curiosiade, sera que se aumentarmos consideravelmente a potencia dos producers o Kafka "engasga" ? 
 
 Em adendo a configuracao ja mencionada adicionamos mais 2 instancias m4.xlarge como producers, seguem abaixo os resultados.
 
-![BytesOut](https://i.imgur.com/bP8tniZ.png)
-![BytesIn](https://i.imgur.com/YdKod05.png)
+<p align="center">
+  <img
+    alt="BytesOut"
+    src="https://i.imgur.com/bP8tniZ.png"
+    width="60%"
+  />
+</p>
+
+
+<p align="center">
+  <img
+    alt="BytesIn"
+    src="https://i.imgur.com/YdKod05.png"
+    width="60%"
+  />
+</p>
 
 Como esperado a quantidade de bytes na saida foi maior, entretanto obtivemos 3 resultados inesperados.  O primeiro:
  - A quantidade de bytes in diminuiu
