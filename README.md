@@ -98,6 +98,8 @@ git clone https://github.com/filipefborba/Kafta.git
 ###### -Entrar nas pastas:
 Para criação do Producer, entre na pasta Producer, para criação do Consumer abra a pasta onde clonou, entre em Consumer-ConsumerDashboard-my-app.
 
+###### -Habilitar CORS:
+Para rodar o Consumer, a extensão do Chrome chamado CORS deve estar habilitado, para que o react funcione normalmente, assim, os dados começam a ser mostrados.
        
 #### Passo 1: Configuração Kafka Server
 Primeiramente, é necessário configurar o Kafka Server. Para tanto, basta seguir [este](ctv) tutorial até o passo 3 (Create a Topic). A partir desse ponto, utilizamos serviços próprios para a demonstração.
